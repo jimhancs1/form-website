@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Page</title>
+</head>
+<body>
+  <h2>Enter Your Details</h2>
+  <form id="userForm">
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="text" id="phone" placeholder="Phone" required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    document.getElementById("userForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+
+      db.ref("users/").push({
+        name: name,
+        email: email,
+        phone: phone
+      }).then(() => {
+        alert("Data submitted!");
+        window.location.href = "display.html";
+      });
+    });
+  </script>
+</body>
+</html>
